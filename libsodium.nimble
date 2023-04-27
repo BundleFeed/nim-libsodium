@@ -17,6 +17,8 @@ requires "nimterop >= 0.6.13"
 task updateWrapper, "Compile to pure JS":
     exec "nim c -r -o:./tmp/generate  src/libsodium/private/generate.nim"
 
+before install:
+  updateWrapperTask()
 
 proc runBrowserWasmTest(test: string) =
   exec "nim c -d:emscripten -d:debug --threads:off --passL:'--emrun' -o:build/browser/" & test & ".html tests/" & test & ".nim"
