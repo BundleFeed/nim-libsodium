@@ -9,7 +9,7 @@ const projectDir = pathnorm.normalizePath(gorge("pwd") / ".." / ".." / "..")
 
 echo "projectDir is ", projectDir
 
-const buildDir = projectDir / "build/libsodium_abi"
+const buildDir = projectDir / "src/libsodium_abi"
 const sodiumExpandedDir = buildDir / "libsodium-stable"
 
 # this is relative to the current file

@@ -20,12 +20,8 @@ taskRequires "updateWrapper", "nimterop >= 0.6.13"
 # Build
 task updateWrapper, "Generate the wrapper":
     echo "Generating wrapper"
-    exec "nim c -o:" & tmpDir & "/generate " & projectDir & "/libsodium/private/generate.nim"
+    exec "nim c -o:" & tmpDir & "/generate src/libsodium/private/generate.nim"
     exec tmpDir & "/generate"
-
-
-after install:
-  updateWrapperTask()
 
 proc runBrowserWasmTest(test: string) =
   exec "nim c -d:emscripten -d:debug --threads:off --passL:'--emrun' -o:build/browser/" & test & ".html tests/" & test & ".nim"
