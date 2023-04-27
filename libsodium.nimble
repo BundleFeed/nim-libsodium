@@ -14,12 +14,12 @@ requires "nimterop >= 0.6.13"
 
 
 # Build
-task updateWrapper, "Compile to pure JS":
+task updateWrapper, "Generate the wrapper":
     exec "nim c -r -o:./tmp/generate  src/libsodium/private/generate.nim"
 
 taskRequires "updateWrapper", "nimterop >= 0.6.13"
 
-before install:
+task install, "Install the package":
   updateWrapperTask()
 
 proc runBrowserWasmTest(test: string) =
