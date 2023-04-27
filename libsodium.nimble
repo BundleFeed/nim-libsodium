@@ -12,7 +12,7 @@ srcDir        = "src"
 requires "nim >= 1.6.12"
 requires "nimterop >= 0.6.13"
 
-let projectDir = srcDir & "/.."
+let projectDir = getCurrentDir()
 let tmpDir = projectDir & "/tmp"
 
 # Build
@@ -20,7 +20,7 @@ task updateWrapper, "Generate the wrapper":
     echo "Generating wrapper"
     echo "src: " & srcDir 
     echo "current dir: " & getCurrentDir()
-    exec "nim c -r -o:" & tmpDir & "/generate " & srcDir & "/libsodium/private/generate.nim"
+    exec "nim c -r -o:" & tmpDir & "/generate " & projectDir & "/src/libsodium/private/generate.nim"
 
 taskRequires "updateWrapper", "nimterop >= 0.6.13"
 
