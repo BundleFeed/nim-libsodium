@@ -15,13 +15,15 @@ requires "nimterop >= 0.6.13"
 let projectDir = getCurrentDir()
 let tmpDir = projectDir & "/tmp"
 
+taskRequires "updateWrapper", "nimterop >= 0.6.13"
+taskRequires "install", "nimterop >= 0.6.13"
+
 # Build
 task updateWrapper, "Generate the wrapper":
     echo "Generating wrapper"
     exec "nim c -o:" & tmpDir & "/generate " & projectDir & "/libsodium/private/generate.nim"
     exec tmpDir & "/generate"
 
-taskRequires "updateWrapper", "nimterop >= 0.6.13"
 
 after install:
   updateWrapperTask()
