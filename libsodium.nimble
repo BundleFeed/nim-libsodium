@@ -19,7 +19,7 @@ task updateWrapper, "Generate the wrapper":
 
 taskRequires "updateWrapper", "nimterop >= 0.6.13"
 
-after "install", "Install the package":
+after install:
   updateWrapperTask()
 
 proc runBrowserWasmTest(test: string) =
