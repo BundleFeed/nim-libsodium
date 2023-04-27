@@ -3,7 +3,7 @@
 version       = "1.0.18.0"
 author        = "Geoffrey Picron"
 description   = "Nim low level binding to libsodium"
-license       = "Proprietary"
+license       = "(MIT OR Apache-2.0)"
 srcDir        = "src"
 
 
