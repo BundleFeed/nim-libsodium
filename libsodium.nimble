@@ -17,6 +17,8 @@ requires "nimterop >= 0.6.13"
 task updateWrapper, "Compile to pure JS":
     exec "nim c -r -o:./tmp/generate  src/libsodium/private/generate.nim"
 
+taskRequires "updateWrapper", "nimterop >= 0.6.13"
+
 before install:
   updateWrapperTask()
 
