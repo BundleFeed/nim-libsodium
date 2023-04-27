@@ -16,7 +16,6 @@ let projectDir = getCurrentDir()
 let tmpDir = projectDir & "/tmp"
 
 taskRequires "updateWrapper", "nimterop >= 0.6.13"
-taskRequires "install", "nimterop >= 0.6.13"
 
 # Build
 task updateWrapper, "Generate the wrapper":
