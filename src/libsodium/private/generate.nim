@@ -4,12 +4,13 @@
 import nimterop/build/shell
 import nimterop/cimport
 import std/[os, strutils, pathnorm]
+import configure
 
 const projectDir = pathnorm.normalizePath(gorge("pwd") / ".." / ".." / "..")
 
 echo "projectDir is ", projectDir
 
-const buildDir = projectDir / "src/libsodium_abi"
+const buildDir = projectDir / "libsodium_abi"
 const sodiumExpandedDir = buildDir / "libsodium-stable"
 
 # this is relative to the current file
@@ -20,17 +21,7 @@ const includeDir2 = includeDir1 / "sodium"
 
 
 static: 
-  rmDir(buildDir)
-  createDir(buildDir)
-
-  downloadUrl("https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable.tar.gz", buildDir)
-
-  echo "# Running configure"
-  let (output, ret) = execAction("cd " & sodiumExpandedDir & " && ./configure")
-  if ret != 0:
-    echo "Error running configure"
-    echo output
-    quit(1)
+  downloadAndConfigure(buildDir)
 
 
 static:

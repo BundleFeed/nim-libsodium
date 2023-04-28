@@ -1,6 +1,5 @@
 build/
 tmp
 src/libsodium_abi/libsodium-1.0.18-stable.tar.gz
-src/libsodium_abi/libsodium-stable/*
-!src/libsodium_abi/libsodium-stable/src
+src/libsodium_abi/libsodium-stable
 
