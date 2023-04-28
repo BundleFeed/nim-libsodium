@@ -22,7 +22,7 @@ task updateWrapper, "Generate the wrapper":
   exec tmpDir & "/generate"
 
 task configureInstall, "Download and configure libsodium":
-  exec "nim c -o:" & tmpDir & "/configure src/libsodium/private/configure.nim"
+  exec "nim c -o:" & tmpDir & "/configure libsodium/private/configure.nim"
   exec tmpDir & "/configure " & projectDir & "/libsodium/libsodium_abi"
 
 
