@@ -20,8 +20,8 @@ const includeDir1 = sodiumSrcDir / "include"
 const includeDir2 = includeDir1 / "sodium"
 
 
-#static: 
-#  downloadAndConfigure(buildDir)
+static: 
+  downloadAndConfigure(buildDir)
 
 
 static:

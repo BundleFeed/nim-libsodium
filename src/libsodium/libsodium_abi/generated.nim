@@ -1,4 +1,4 @@
-# Generated @ 2023-04-28T08:28:12+02:00
+# Generated @ 2023-04-28T09:25:33+02:00
 import std/os
 const sodiumPath = currentSourcePath().parentDir() / "libsodium-stable"
 
