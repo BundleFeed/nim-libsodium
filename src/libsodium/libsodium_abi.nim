@@ -1,4 +1,4 @@
-import ../libsodium_abi/generated
+import libsodium_abi/generated
 
 
 export generated

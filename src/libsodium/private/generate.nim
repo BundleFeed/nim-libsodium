@@ -10,7 +10,7 @@ const projectDir = pathnorm.normalizePath(gorge("pwd") / ".." / ".." / "..")
 
 echo "projectDir is ", projectDir
 
-const buildDir = projectDir / "libsodium_abi"
+const buildDir = projectDir / "src" / "libsodium" / "libsodium_abi"
 const sodiumExpandedDir = buildDir / "libsodium-stable"
 
 # this is relative to the current file
@@ -20,8 +20,8 @@ const includeDir1 = sodiumSrcDir / "include"
 const includeDir2 = includeDir1 / "sodium"
 
 
-static: 
-  downloadAndConfigure(buildDir)
+#static: 
+#  downloadAndConfigure(buildDir)
 
 
 static:
@@ -82,8 +82,24 @@ cIncludeDir(@[includeDir1, includeDir2])
 #cIncludeDir(@["../libsodium-src/libsodium-stable/src/libsodium/include/sodium"])
 cCompile(sodiumSrcDir)
 
+const generatedFile = buildDir / "generated.nim"
 
-cImport(includeDir1 / "sodium.h", recurse=true, flags="-H", nimfile= buildDir / "generated.nim")
+cImport(includeDir1 / "sodium.h", recurse=true, flags="-H", nimfile= generatedFile)
 
 
 echo "Generated binding for libsodium:", sodium_version_string()
+
+const absolutePath = (projectDir / "src" / "libsodium" / "libsodium_abi" / "libsodium-stable").normalizePath()
+
+
+var content = generatedFile.readFile().splitLines()
+
+content[1] = "import std/os"
+content[2] = """const sodiumPath = currentSourcePath().parentDir() / "libsodium-stable""""
+
+for i in 0..<content.len:
+  content[i] = content[i].replace(absolutePath, """" & sodiumPath & """")
+
+
+generatedFile.writeFile(content.join("\n"))
+

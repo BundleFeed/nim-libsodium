@@ -17,13 +17,17 @@ let tmpDir = projectDir & "/tmp"
 
 # Build
 task updateWrapper, "Generate the wrapper":
-    echo "Generating wrapper"
-    exec "nim c -o:" & tmpDir & "/generate src/libsodium/private/generate.nim"
-    exec tmpDir & "/generate"
+  echo "Generating wrapper"
+  exec "nim c -o:" & tmpDir & "/generate src/libsodium/private/generate.nim"
+  exec tmpDir & "/generate"
+
+task configureInstall, "Download and configure libsodium":
+  exec "nim c -o:" & tmpDir & "/configure src/libsodium/private/configure.nim"
+  exec tmpDir & "/configure " & projectDir & "/libsodium/libsodium_abi"
 
 
 after install:
-  updateWrapperTask()
+  configureInstallTask()
 
 proc runBrowserWasmTest(test: string) =
   exec "nim c -d:emscripten -d:debug --threads:off --passL:'--emrun' -o:build/browser/" & test & ".html tests/" & test & ".nim"

@@ -17,3 +17,8 @@ proc downloadAndConfigure*(buildDir: string) =
   let (output, ret) = execAction("cd " & sodiumExpandedDir & " && ./configure")
   if ret != 0:
     raise newException(OSError, "Error running configure")
+
+when isMainModule:
+  assert paramCount() == 1, "Expected 1 argument, the install path"
+  let installPath = paramStr(1)
+  downloadAndConfigure(installPath)
