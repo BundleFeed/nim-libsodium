@@ -16,21 +16,21 @@ func signKeyGen*() : (SignPublicKey, SignPrivateKey) =
 func signKeyGen*(seed: SignKeySeed) : (SignPublicKey, SignPrivateKey) =
   checkRc crypto_sign_seed_keypair(result[0].address, result[1].address, seed.address)
 
-template signedBoxLen*(source: Message) : uint = source.len.uint + crypto_sign_BYTES
+template signedBoxLen*(source: Message) : uint = msgLen(source).uint + crypto_sign_BYTES
 
 func signedBox*(source: Message, privateKey: SignPrivateKey) : seq[byte] =
   result.setLen(signedBoxLen(source))
-  checkRc crypto_sign(result.address, nil, source.address, source.len.uint, privateKey.address)
+  checkRc crypto_sign(result.address, nil, source.address, source.msgLen.uint, privateKey.address)
   
 func openSignedBox*(source: Message, publicKey: SignPublicKey) : seq[byte] =
-  result.setLen(source.len.uint - crypto_sign_BYTES)
-  checkRc crypto_sign_open(result.address, nil, source.address, source.len.uint, publicKey.address)
+  result.setLen(source.msgLen.uint - crypto_sign_BYTES)
+  checkRc crypto_sign_open(result.address, nil, source.address, source.msgLen.uint, publicKey.address)
 
 func detachedSign*(source: Message, privateKey: SignPrivateKey) : SignSignature =
-  checkRc crypto_sign_detached(result.address, nil, source.address, source.len.uint, privateKey.address)
+  checkRc crypto_sign_detached(result.address, nil, source.address, source.msgLen.uint, privateKey.address)
 
 func verifyDetachedSign*(source: Message, signature: SignSignature, publicKey: SignPublicKey) : bool =
-  crypto_sign_verify_detached(signature.address, source.address, source.len.uint, publicKey.address) == 0
+  crypto_sign_verify_detached(signature.address, source.address, source.msgLen.uint, publicKey.address) == 0
 
 type 
     SignBuilder* = object
@@ -46,7 +46,7 @@ func newSignBuilder*(privateKey: SignPrivateKey) : SignBuilder =
   checkRc crypto_sign_init(result.state.addr)
 
 func add*(builder: var SignBuilder, source: sink Message) =
-  checkRc crypto_sign_update(builder.state.addr, source.address, source.len.uint)
+  checkRc crypto_sign_update(builder.state.addr, source.address, source.msgLen.uint)
 
 func finish*(builder: var SignBuilder) : SignSignature =
   checkRc crypto_sign_final_create(builder.state.addr, result.address, nil, builder.privateKey.address)
@@ -57,7 +57,7 @@ func newSignVerifier*(publicKey: SignPublicKey, signature: SignSignature) : Sign
   checkRc crypto_sign_init(result.state.addr)
 
 func add*(verifier: var SignVerifier, source: sink Message) =
-  checkRc crypto_sign_update(verifier.state.addr, source.address, source.len.uint)
+  checkRc crypto_sign_update(verifier.state.addr, source.address, source.msgLen.uint)
 
 func finish*(verifier: var SignVerifier) : bool =
   crypto_sign_final_verify(verifier.state.addr, verifier.signature.address, verifier.publicKey.address) == 0

@@ -15,7 +15,7 @@ defineByteArrayType(BoxPrivateKey, crypto_box_SECRETKEYBYTES)
 defineByteArrayType(BoxNonce, crypto_box_NONCEBYTES)
 defineByteArrayType(BoxMac, crypto_box_MACBYTES)
 
-template boxLen*(source: Message) : uint = source.len.uint + crypto_box_MACBYTES
+template boxLen*(source: Message) : uint = msgLen(source).uint + crypto_box_MACBYTES
     
 
 func boxKeyGen*() : (BoxPublicKey, BoxPrivateKey) =
@@ -23,8 +23,8 @@ func boxKeyGen*() : (BoxPublicKey, BoxPrivateKey) =
 
 func boxEncrypt*(message: Message, nonce: BoxNonce, recipientPublicKey: BoxPublicKey, senderPrivateKey: BoxPrivateKey) : seq[byte] =
   result = newSeq[byte](message.boxLen)
-  checkRc crypto_box_easy(result.address, message.address, message.len.uint64, nonce.address, recipientPublicKey.address, senderPrivateKey.address)
+  checkRc crypto_box_easy(result.address, message.address, message.msgLen.uint64, nonce.address, recipientPublicKey.address, senderPrivateKey.address)
 
 func boxDecrypt*(ciphertext: Message, nonce: BoxNonce, senderPublicKey: BoxPublicKey, recipientPrivateKey: BoxPrivateKey) : seq[byte] =
-  result = newSeq[byte](ciphertext.len - crypto_box_MACBYTES.int)
-  checkRc crypto_box_open_easy(result.address, ciphertext.address, ciphertext.len.uint64, nonce.address, senderPublicKey.address, recipientPrivateKey.address)
+  result = newSeq[byte](ciphertext.msgLen - crypto_box_MACBYTES.int)
+  checkRc crypto_box_open_easy(result.address, ciphertext.address, ciphertext.msgLen.uint64, nonce.address, senderPublicKey.address, recipientPrivateKey.address)

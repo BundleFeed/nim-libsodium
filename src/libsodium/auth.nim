@@ -17,10 +17,10 @@ func authKeyGen*() : AuthKey {.inline.} =
 func auth*(msg: Message, key: AuthKey) : AuthMac {.inline.} =
     ## Computes an authentication tag for a message
     
-    checkRc crypto_auth(result.address, msg.address, msg.len.uint64, key.address)
+    checkRc crypto_auth(result.address, msg.address, msg.msgLen.uint64, key.address)
 
 func authVerify*(mac: AuthMac, msg: Message, key: AuthKey) : bool {.inline.} =
     ## Verifies an authentication tag for a message
     
-    crypto_auth_verify(mac.address, msg.address, msg.len.uint64, key.address) == 0
+    crypto_auth_verify(mac.address, msg.address, msg.msgLen.uint64, key.address) == 0
 

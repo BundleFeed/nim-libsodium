@@ -16,10 +16,10 @@ func genericHashKeyGen*() : GenericHashKey =
     crypto_generichash_keygen(result)
 
 func genericHash*(msg: Message, key: GenericHashKey): GenericHash =
-  checkRc crypto_generichash(result.address, result.len.uint, msg.address, msg.len.uint, key.address, key.len.uint)
+  checkRc crypto_generichash(result.address, result.len.uint, msg.address, msg.msgLen.uint, key.address, key.len.uint)
 
 func genericHash*(msg: Message): GenericHash =
-  checkRc crypto_generichash(result.address, result.len.uint, msg.address, msg.len.uint, nil, 0.uint)
+  checkRc crypto_generichash(result.address, result.len.uint, msg.address, msg.msgLen.uint, nil, 0.uint)
 
 type GenericHashBuilder* = object
   state: crypto_generichash_state
@@ -31,7 +31,7 @@ func newGenericHashBuilder*(): GenericHashBuilder =
   checkRc crypto_generichash_init(result.state.addr, nil, 0.uint, crypto_generichash_BYTES)
 
 func add*(builder: var GenericHashBuilder, msg: Message) =
-  checkRc crypto_generichash_update(builder.state.addr, msg.address, msg.len.uint)
+  checkRc crypto_generichash_update(builder.state.addr, msg.address, msg.msgLen.uint)
 
 func finish*(builder: var GenericHashBuilder): GenericHash =
   checkRc crypto_generichash_final(builder.state.addr, result.address, result.len.uint)
@@ -56,7 +56,7 @@ macro generateElementFor(name) : untyped =
     
   result.add quote do:
     func `exportedName`*(msg: Message): `exportedNameType` =
-      checkRc `sodiumFuncName`(result.address, msg.address, msg.len.uint)
+      checkRc `sodiumFuncName`(result.address, msg.address, msg.msgLen.uint)
 
     type `builderType`* = object
       state: `hashStateStruct`
@@ -65,7 +65,7 @@ macro generateElementFor(name) : untyped =
       checkRc `sodiumBuilderInit`(result.state.addr)
     
     func add*(builder: var `builderType`, msg: Message) =
-      checkRc `sodiumBuilderUpdate`(builder.state.addr, msg.address, msg.len.uint)
+      checkRc `sodiumBuilderUpdate`(builder.state.addr, msg.address, msg.msgLen.uint)
     
     func finish*(builder: var `builderType`): `exportedNameType` =
       checkRc `sodiumBuilderFinal`(builder.state.addr, result.address)

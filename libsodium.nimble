@@ -50,5 +50,11 @@ task test, "Run tests in the all supported environments":
     if test.extractFilename.startsWith("test") and test.endsWith(".nim"):
       let name = test.extractFilename.replace(".nim", "")
       runNativeTest(name)
+  for test in listFiles("tests"):
+    if test.extractFilename.startsWith("test") and test.endsWith(".nim"):
+      let name = test.extractFilename.replace(".nim", "")
       runNodeJsWasmTest(name)
+  for test in listFiles("tests"):
+    if test.extractFilename.startsWith("test") and test.endsWith(".nim"):
+      let name = test.extractFilename.replace(".nim", "")
       runBrowserWasmTest(name)
