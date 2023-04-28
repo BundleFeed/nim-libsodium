@@ -24,7 +24,7 @@ task updateWrapper, "Generate the wrapper":
 taskRequires "configureInstall", "nimterop >= 0.6.13"
 
 task configureInstall, "Download and configure libsodium":
-  exec "nim c -o:" & tmpDir & "/configure libsodium/private/configure.nim"
+  exec "nimble c -o:" & tmpDir & "/configure libsodium/private/configure.nim"
   exec tmpDir & "/configure " & projectDir & "/libsodium/libsodium_abi"
 
 
