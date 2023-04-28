@@ -8,7 +8,7 @@ import std/[os, strutils, pathnorm]
 proc downloadAndConfigure*(buildDir: string) = 
   let sodiumExpandedDir = buildDir / "libsodium-stable"
 
-  rmDir(buildDir)
+  rmDir(sodiumExpandedDir)
   createDir(buildDir)
 
   downloadUrl("https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable.tar.gz", buildDir)
