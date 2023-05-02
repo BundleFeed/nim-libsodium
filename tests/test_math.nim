@@ -15,3 +15,24 @@ test "scalar multiplication":
   let shared2 = scalarMult(sk2, pk1)
 
   check shared1 == shared2
+
+test "increment":
+  var nonce  = newSeq[byte](10)
+  increment(nonce)
+
+  check nonce == @[1.byte, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+  for i in 0..255:
+    increment(nonce)
+
+  check nonce == @[1.byte, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+
+test "increment overflow wraps":
+  var nonce = newSeq[byte](10)
+  for e in nonce.mitems:
+    e = 255.byte
+  increment(nonce)
+
+  check nonce == @[0.byte, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+
