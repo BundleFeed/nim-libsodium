@@ -28,8 +28,8 @@ if defined(emscripten):
 
   --gc:orc # GC:arc is friendlier with crazy platforms.
   --define:noSignalHandler # Emscripten doesn't support signal handlers.
-  --passC:"-sSTACK_SIZE=1048576"
-  --passL:"-sSTACK_SIZE=1048576"
+  --passC:"-sSTACK_SIZE=1048576 -sALLOW_MEMORY_GROWTH"
+  --passL:"-sSTACK_SIZE=1048576 -sALLOW_MEMORY_GROWTH"
   --passC:"-g3" # Debugging symbols.
   --passL:"-g3" # Debugging symbols.
 
