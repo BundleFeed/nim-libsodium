@@ -5,3 +5,5 @@ src/libsodium_abi/libsodium-stable
 
 src/libsodium/libsodium_abi/libsodium-stable
 *.gz
+tests/test_password
+tests/test_memory
