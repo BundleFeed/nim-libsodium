@@ -40,7 +40,7 @@ converter algEnumToAbiInt(a: Algorithm): cint {.inline.} =
   of Algorithm.algArgon2i13: libsodium_abi.crypto_pwhash_ALG_ARGON2I13
   of Algorithm.algArgon2id13: libsodium_abi.crypto_pwhash_ALG_ARGON2ID13
 
-proc passwordHash*[P:Message, T:Message](password: P, seed: PasswordHashSeed, target: var T,
+proc passwordHash*[P:Message, T](password: P, seed: PasswordHashSeed, target: var T,
   cpuLimit: CpuLimit = CpuLimit.cpuInteractive,
   memoryLimit: MemoryLimit = MemoryLimit.memInteractive, 
   algorithm: Algorithm = Algorithm.algDefault) =
