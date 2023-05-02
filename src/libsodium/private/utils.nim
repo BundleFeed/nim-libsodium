@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: (MIT or Apache-2.0)
 import ../common
 import std/strutils
+import std/oserrors
+export oserrors
 
 template defineByteArrayType*(typeName: untyped, size: Natural): untyped =
   type typeName* = distinct array[size, byte]
@@ -28,8 +30,13 @@ template defineByteArrayType*(typeName: untyped, size: Natural): untyped =
 
 converter toPtrCUChar*(p: ptr byte): ptr cuchar = cast[ptr cuchar](p)
 
+
+
 template checkRc*(call) =
   let ret = call
   if ret != 0:
-    raise newException(SodiumError, "Failure to call libsodium")
+    {.cast(noSideEffect).}:
+      let lastError = osLastError()
+      let lastErrorMsg = osErrorMsg(lastError)
+    raise newException(SodiumError, "Failure to call libsodium (code:" & $ret & "): " & lastErrorMsg)
     
