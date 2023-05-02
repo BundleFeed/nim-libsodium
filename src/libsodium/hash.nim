@@ -21,10 +21,10 @@ func genericHash*(msg: Message, key: GenericHashKey): GenericHash =
 func genericHash*(msg: Message): GenericHash =
   checkRc crypto_generichash(result.address, result.len.uint, msg.address, msg.msgLen.uint, nil, 0.uint)
 
-func genericHash*[M:Message,O:Message](msg: Message, hash: var Message) =
+func genericHash*[M:Message,O:Message](msg: M, hash: var O) =
   checkRc crypto_generichash(hash.address, hash.msgLen.uint, msg.address, msg.msgLen.uint, nil, 0.uint)
 
-func genericHash*[M:Message,O:Message](msg: Message, key: GenericHashKey, hash: var Message) =
+func genericHash*[M:Message,O:Message](msg: M, key: GenericHashKey, hash: var O) =
   checkRc crypto_generichash(hash.address, hash.msgLen.uint, msg.address, msg.msgLen.uint, key.address, key.len.uint)
 
 
