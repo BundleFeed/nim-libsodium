@@ -16,17 +16,17 @@ defineByteArrayType(PasswordHashSeed, crypto_pwhash_SALTBYTES)
 defineByteArrayType(PasswordHashString, crypto_pwhash_STRBYTES)
 
 type
-  CpuLimit* = enum
+  CpuLimit* : uint = enum
     cpuInteractive = crypto_pwhash_OPSLIMIT_INTERACTIVE,
     cpuModerate = crypto_pwhash_OPSLIMIT_MODERATE,
     cpuSensitive = crypto_pwhash_OPSLIMIT_SENSITIVE,
-    cpuMax = crypto_pwhash_OPSLIMIT_MAX
+    cpuSuperSensitive = crypto_pwhash_OPSLIMIT_SENSITIVE * 2
   
-  MemoryLimit* = enum
+  MemoryLimit* : uint = enum
     memInteractive = crypto_pwhash_MEMLIMIT_INTERACTIVE,
     memModerate = crypto_pwhash_MEMLIMIT_MODERATE,
     memSensitive = crypto_pwhash_MEMLIMIT_SENSITIVE,
-    memMax = crypto_pwhash_MEMLIMIT_MAX
+    memSuperSensitive = crypto_pwhash_MEMLIMIT_SENSITIVE * 2
   
   Algorithm* = enum
     algDefault 
