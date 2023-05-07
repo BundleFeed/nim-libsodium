@@ -7,8 +7,12 @@ import private/utils
 defineByteArrayType(RandomBytesSeed, randombytes_SEEDBYTES)
 
 
-template randomBytes*[Buffer](buffer: var Buffer) =
+func randomBytes*[Buffer](buffer: var Buffer) {.inline.} =
   randombytes_buf(addr buffer[0], buffer.len.uint)
 
-template randomBytes*[Buffer](buffer: var Buffer, seed: RandomBytesSeed) =
+func randomBytes*[Buffer](buffer: var Buffer, seed: RandomBytesSeed)  {.inline.} =
   randombytes_buf_deterministic(addr buffer[0], buffer.len.uint, seed)
+
+func randomUniform*(upperBound: uint32): uint32 {.inline.} =
+  ## upperBound is exclude in the range
+  randombytes_uniform(upperBound)
