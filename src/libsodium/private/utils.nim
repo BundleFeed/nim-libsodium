@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: (MIT or Apache-2.0)
 import ../common
 import std/strutils
-import std/oserrors
-export oserrors
+import std/os
+export os
 
 template defineByteArrayType*(typeName: untyped, size: Natural): untyped =
   type typeName* = distinct array[size, byte]

@@ -15,7 +15,7 @@ test "init":
 
 converter toSeqOfBytes(s: string): seq[cuchar] =
   result = newSeq[cuchar](s.len)
-  copyMem(addr result[0], addr s[0], s.len)
+  copyMem(addr result[0], unsafeAddr s[0], s.len)
   
 
 test "authenticated encryption":
@@ -27,7 +27,7 @@ test "authenticated encryption":
 
   crypto_secretbox_keygen(key)
   randombytes_buf(addr nonce, sizeof(nonce).uint)
-  check crypto_secretbox_easy(addr ciphertext[0], addr MESSAGE[0], MESSAGE.len.uint, addr nonce[0], addr key[0]) == 0
+  check crypto_secretbox_easy(addr ciphertext[0], unsafeAddr MESSAGE[0], MESSAGE.len.uint, addr nonce[0], addr key[0]) == 0
 
   var decrypted = newSeq[cuchar](MESSAGE.len)
 
